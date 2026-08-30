@@ -1,0 +1,109 @@
+{
+	"info": {
+		"name": "TaskMaster API Collection",
+		"description": "Complete collection for testing the TaskMaster Backend.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"name\": \"Jane Smith\",\n  \"email\": \"jane@test.com\",\n  \"password\": \"password123\"\n}" },
+						"url": { "raw": "http://localhost:5000/api/auth/register", "protocol": "http", "host": [ "localhost" ], "port": "5000", "path": [ "api", "auth", "register" ] }
+					}
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"email\": \"jane@test.com\",\n  \"password\": \"password123\"\n}" },
+						"url": { "raw": "http://localhost:5000/api/auth/login", "protocol": "http", "host": [ "localhost" ], "port": "5000", "path": [ "api", "auth", "login" ] }
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Users & Teams",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+						"url": { "raw": "http://localhost:5000/api/users/profile", "protocol": "http", "host": [ "localhost" ], "port": "5000", "path": [ "api", "users", "profile" ] }
+					}
+				},
+				{
+					"name": "Create Team",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"name\": \"Engineering Team\",\n  \"description\": \"Backend devs\"\n}" },
+						"url": { "raw": "http://localhost:5000/api/teams", "protocol": "http", "host": [ "localhost" ], "port": "5000", "path": [ "api", "teams" ] }
+					}
+				},
+				{
+					"name": "Add Member to Team",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"email\": \"john@test.com\",\n  \"role\": \"Member\"\n}" },
+						"url": { "raw": "http://localhost:5000/api/teams/:teamId/members", "protocol": "http", "host": [ "localhost" ], "port": "5000", "path": [ "api", "teams", ":teamId", "members" ], "variable": [ { "key": "teamId", "value": "<REPLACE_WITH_TEAM_ID>" } ] }
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Tasks & Collaboration",
+			"item": [
+				{
+					"name": "Create Task",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"title\": \"Build the API\",\n  \"description\": \"Write endpoints\",\n  \"status\": \"Open\",\n  \"teamId\": \"<REPLACE_WITH_TEAM_ID>\"\n}" },
+						"url": { "raw": "http://localhost:5000/api/tasks", "protocol": "http", "host": [ "localhost" ], "port": "5000", "path": [ "api", "tasks" ] }
+					}
+				},
+				{
+					"name": "Get All Tasks",
+					"request": {
+						"method": "GET",
+						"header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+						"url": { "raw": "http://localhost:5000/api/tasks?status=Open", "protocol": "http", "host": [ "localhost" ], "port": "5000", "path": [ "api", "tasks" ], "query": [ { "key": "status", "value": "Open" } ] }
+					}
+				},
+				{
+					"name": "Assign Task",
+					"request": {
+						"method": "PATCH",
+						"header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"assignedTo\": \"<REPLACE_WITH_USER_ID>\"\n}" },
+						"url": { "raw": "http://localhost:5000/api/tasks/:taskId/assign", "protocol": "http", "host": [ "localhost" ], "port": "5000", "path": [ "api", "tasks", ":taskId", "assign" ], "variable": [ { "key": "taskId", "value": "<REPLACE_WITH_TASK_ID>" } ] }
+					}
+				},
+				{
+					"name": "Add Comment to Task",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n  \"content\": \"I have started working on this!\"\n}" },
+						"url": { "raw": "http://localhost:5000/api/tasks/:taskId/comments", "protocol": "http", "host": [ "localhost" ], "port": "5000", "path": [ "api", "tasks", ":taskId", "comments" ], "variable": [ { "key": "taskId", "value": "<REPLACE_WITH_TASK_ID>" } ] }
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "PASTE_YOUR_TOKEN_HERE_FROM_LOGIN"
+		}
+	]
+}
